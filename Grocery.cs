@@ -6,7 +6,7 @@ namespace GrocerySystem
 {
     class Grocery
     {
-        private Dictionary<KeyValuePair<string, double>, int > CartInventory = new Dictionary<KeyValuePair<string, double>,int> ();
+        private Dictionary<KeyValuePair<string, double>, int> CartInventory = new Dictionary<KeyValuePair<string, double>, int>();
         public Grocery() { }
         public void Run()
         {
@@ -42,7 +42,7 @@ namespace GrocerySystem
                 double Sum = 0;
                 foreach (var i in CartInventory)
                 {
-                    Console.WriteLine("{0}x {1} - {2} each", i.Value, i.Key.Key, i.Key.Value);
+                    Console.WriteLine("{3} = {0}x {1} - {2} each", i.Value, i.Key.Key, i.Key.Value, i.Value * i.Key.Value);
                     Sum += i.Value * i.Key.Value;
                 }
                 Console.WriteLine($"Total: {Sum}");
@@ -77,7 +77,7 @@ namespace GrocerySystem
                 Console.WriteLine("1. Add\n2. Exit");
                 int chosen2 = Convert.ToInt16(Console.ReadLine());
                 Console.Clear();
-                switch(chosen2)
+                switch (chosen2)
                 {
                     case 1:
                         Console.Write("Quantity: ");
@@ -97,28 +97,19 @@ namespace GrocerySystem
         }
         private void AddCart(KeyValuePair<String, double> selectedProduct, int Quantity)
         {
-            if (CartInventory.Count > 0)
+            foreach (var i in CartInventory)
             {
-                foreach (var i in CartInventory)
+                if (i.Key.Key == selectedProduct.Key && i.Key.Value == selectedProduct.Value)
                 {
-                    if (i.Key.Key == selectedProduct.Key && i.Key.Value == selectedProduct.Value)
-                    {
-                        CartInventory[selectedProduct] += Quantity;
-                        Console.WriteLine("Successfully Added!");
-                        Console.ReadKey();
-                        return;
-                    }
+                    CartInventory[selectedProduct] += Quantity;
+                    Console.WriteLine("Successfully Added!");
+                    Console.ReadKey();
+                    return;
                 }
-                CartInventory.Add(selectedProduct, Quantity);
-                Console.WriteLine("Successfully Added!");
-                Console.ReadKey();
             }
-            else if(CartInventory.Count == 0)
-            {
-                CartInventory.Add(selectedProduct, Quantity);
-                Console.WriteLine("Successfully Added!");
-                Console.ReadKey();
-            }
+            CartInventory.Add(selectedProduct, Quantity);
+            Console.WriteLine("Successfully Added!");
+            Console.ReadKey();
         }
     }
 }
